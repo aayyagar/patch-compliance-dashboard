@@ -1,0 +1,9 @@
+{
+  "note": "Starter list mapping KBs to known-critical CVEs for highlighting. Extend from your own patch-Tuesday tracking.",
+  "updated": "2026-10-22",
+  "entries": [
+    {"kb": "KB5062561", "cve": "CVE-2026-37218", "title": "Windows RCE in RPC runtime (critical)"},
+    {"kb": "KB5061010", "cve": "CVE-2026-33890", "title": "Windows LPE in Win32k"},
+    {"kb": "KB5060842", "cve": "CVE-2026-29812", "title": "Windows elevation of privilege"}
+  ]
+}

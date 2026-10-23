@@ -1,0 +1,156 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Patch Compliance Dashboard</title><style>:root{--bg:#f3f4f7;--card:#fff;--ink:#151a2c;--mut:#5b6278;--line:#dcdfe7;--soft:#eef0f4;--ok:#17865f;--warn:#b07a00;--bad:#c2691b;--crit:#c8432b;--stale:#6b46c1}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1220;--card:#181c2e;--ink:#e9ecf4;--mut:#9ca3ba;--line:#2a3048;--soft:#1f2438;--ok:#3fc48d;--warn:#e7b43b;--bad:#f0a05f;--crit:#f07a62;--stale:#a78bfa;color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Segoe UI",system-ui,sans-serif}
+.w{max-width:1120px;margin:0 auto;padding:28px 20px 60px}
+header{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-end;margin-bottom:18px}
+h1{margin:0;font-size:1.7rem;letter-spacing:-.02em}.sub{color:var(--mut);font-size:.76rem;font-family:Consolas,ui-monospace,monospace}.mono{font-family:Consolas,ui-monospace,monospace;font-size:.82rem}.mut{color:var(--mut)}
+.top{display:grid;grid-template-columns:210px 1fr;gap:16px;margin-bottom:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.score{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}.score svg{width:140px;height:140px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.kpi{background:var(--soft);border-radius:10px;padding:13px}.kpi b{display:block;font-size:1.6rem;font-variant-numeric:tabular-nums}.kpi span{font-size:.74rem;color:var(--mut)}
+.kpi.crit b{color:var(--crit)}.kpi.stale b{color:var(--stale)}.kpi.ok b{color:var(--ok)}
+h2{font-size:1.15rem;margin:22px 0 10px}
+.groups{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.gcard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;border-left:4px solid var(--ok)}.gcard.warn{border-left-color:var(--warn)}.gcard.bad{border-left-color:var(--crit)}
+.gh{display:flex;justify-content:space-between;font-weight:600}.gcard small{color:var(--mut);font-size:.76rem}.gcrit{color:var(--crit);font-weight:600;margin-left:6px}
+.trk{height:7px;background:var(--soft);border-radius:4px;margin:7px 0 5px;overflow:hidden}.trk div{height:100%;background:var(--ok)}
+.gcard.warn .trk div{background:var(--warn)}.gcard.bad .trk div{background:var(--crit)}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+th,td{text-align:left;padding:10px 13px;border-bottom:1px solid var(--line);font-size:.88rem;vertical-align:top}
+th{font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);background:var(--soft)}
+tr:last-child td{border-bottom:0}.num{text-align:right;font-variant-numeric:tabular-nums}.num.crit{color:var(--crit);font-weight:600}
+.sub{color:var(--mut);font-size:.74rem}.kb{font-size:.76rem;color:var(--mut)}.warnx{color:var(--stale)!important}
+.pill{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:3px 8px;border-radius:999px;white-space:nowrap;color:#fff}
+.pill.critical{background:var(--crit)}.pill.stale{background:var(--stale)}.pill.behind{background:var(--bad)}.pill.minor{background:var(--warn);color:#1a1a1a}.pill.compliant{background:var(--soft);color:var(--ok)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:820px){.top{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.groups{grid-template-columns:1fr}.two{grid-template-columns:1fr}.kb,th:nth-child(7),td:nth-child(7){display:none}}</style></head><body><div class="w">
+<header><div><div class="mono mut">WSUS / PATCH COMPLIANCE</div><h1>Patch Compliance</h1><div class="sub">2026-10-22 20:10 &middot; 12 servers &middot; stale threshold 7 days</div></div><div class="mono mut">Patch Compliance Dashboard v1.0.0</div></header>
+<div class="top">
+<div class="card score"><svg viewBox="0 0 120 120" role="img" aria-label="Compliance 17%"><circle cx="60" cy="60" r="52" fill="none" stroke="var(--soft)" stroke-width="10"/><circle cx="60" cy="60" r="52" fill="none" stroke="var(--crit)" stroke-width="10" stroke-linecap="round" stroke-dasharray="55.5 400" transform="rotate(-90 60 60)"/><text x="60" y="56" text-anchor="middle" font-size="26" font-weight="700" fill="var(--ink)">17%</text><text x="60" y="76" text-anchor="middle" font-size="10" fill="var(--mut)">compliant</text></svg></div>
+<div class="card"><div class="kpis">
+<div class="kpi crit"><b>14</b><span>Missing critical updates</span></div>
+<div class="kpi crit"><b>6</b><span>Servers with critical gaps</span></div>
+<div class="kpi stale"><b>1</b><span>Not reporting (7+ d)</span></div>
+<div class="kpi ok"><b>2 / 12</b><span>Fully compliant</span></div>
+</div></div></div>
+<h2>Compliance by group</h2>
+<div class="groups"><div class='gcard bad'><div class='gh'><b>App Tier</b><span>0%</span></div><div class='trk'><div style='width:0%'></div></div><small>0/2 compliant <span class='gcrit'>5 critical</span></small></div><div class='gcard bad'><div class='gh'><b>File &amp; Print</b><span>0%</span></div><div class='trk'><div style='width:0%'></div></div><small>0/1 compliant </small></div><div class='gcard bad'><div class='gh'><b>Infrastructure</b><span>0%</span></div><div class='trk'><div style='width:0%'></div></div><small>0/2 compliant <span class='gcrit'>1 critical</span></small></div><div class='gcard bad'><div class='gh'><b>Remote Desktop</b><span>0%</span></div><div class='trk'><div style='width:0%'></div></div><small>0/1 compliant <span class='gcrit'>2 critical</span></small></div><div class='gcard bad'><div class='gh'><b>Web Tier</b><span>0%</span></div><div class='trk'><div style='width:0%'></div></div><small>0/2 compliant <span class='gcrit'>3 critical</span></small></div><div class='gcard bad'><div class='gh'><b>Database</b><span>50%</span></div><div class='trk'><div style='width:50%'></div></div><small>1/2 compliant <span class='gcrit'>2 critical</span></small></div><div class='gcard bad'><div class='gh'><b>Domain Controllers</b><span>50%</span></div><div class='trk'><div style='width:50%'></div></div><small>1/2 compliant <span class='gcrit'>1 critical</span></small></div></div>
+<div class="two">
+<div><h2>Servers</h2>
+<table><thead><tr><th>State</th><th>Server</th><th>Group</th><th>Missing</th><th>Critical</th><th>Last report</th><th>Missing KBs</th></tr></thead>
+<tbody><tr class='st-critical'>
+<td><span class='pill critical'>Critical</span></td>
+<td>APP01<div class='sub'>Windows Server 2016</div></td>
+<td>App Tier</td>
+<td class='num'>22</td>
+<td class='num crit'>5</td>
+<td class='mut'>2026-10-21</td>
+<td class='mono kb'>KB5062561, KB5061010, KB5060842, KB5059091</td>
+</tr>
+<tr class='st-critical'>
+<td><span class='pill critical'>Critical</span></td>
+<td>WEB01<div class='sub'>Windows Server 2022</div></td>
+<td>Web Tier</td>
+<td class='num'>14</td>
+<td class='num crit'>3</td>
+<td class='mut'>2026-10-19</td>
+<td class='mono kb'>KB5062561, KB5061010, KB5060842</td>
+</tr>
+<tr class='st-critical'>
+<td><span class='pill critical'>Critical</span></td>
+<td>RDS01<div class='sub'>Windows Server 2019</div></td>
+<td>Remote Desktop</td>
+<td class='num'>11</td>
+<td class='num crit'>2</td>
+<td class='mut'>2026-10-20</td>
+<td class='mono kb'>KB5062561, KB5061010</td>
+</tr>
+<tr class='st-critical'>
+<td><span class='pill critical'>Critical</span></td>
+<td>SQL01<div class='sub'>Windows Server 2019</div></td>
+<td>Database</td>
+<td class='num'>8</td>
+<td class='num crit'>2</td>
+<td class='mut'>2026-10-20</td>
+<td class='mono kb'>KB5062561, KB5061010</td>
+</tr>
+<tr class='st-critical'>
+<td><span class='pill critical'>Critical</span></td>
+<td>WSUS01<div class='sub'>Windows Server 2019</div></td>
+<td>Infrastructure</td>
+<td class='num'>4</td>
+<td class='num crit'>1</td>
+<td class='mut'>2026-10-21</td>
+<td class='mono kb'>KB5062561</td>
+</tr>
+<tr class='st-critical'>
+<td><span class='pill critical'>Critical</span></td>
+<td>DC02<div class='sub'>Windows Server 2019</div></td>
+<td>Domain Controllers</td>
+<td class='num'>2</td>
+<td class='num crit'>1</td>
+<td class='mut'>2026-10-21</td>
+<td class='mono kb'>KB5062561</td>
+</tr>
+<tr class='st-stale'>
+<td><span class='pill stale'>Stale</span></td>
+<td>APP02<div class='sub'>Windows Server 2016</div></td>
+<td>App Tier</td>
+<td class='num'>0</td>
+<td class='num crit'>0</td>
+<td class='mut warnx'>2026-10-03</td>
+<td class='mono kb'>-</td>
+</tr>
+<tr class='st-minor'>
+<td><span class='pill minor'>Minor</span></td>
+<td>FILE01<div class='sub'>Windows Server 2022</div></td>
+<td>File &amp; Print</td>
+<td class='num'>3</td>
+<td class='num crit'>0</td>
+<td class='mut'>2026-10-18</td>
+<td class='mono kb'>KB5060842</td>
+</tr>
+<tr class='st-minor'>
+<td><span class='pill minor'>Minor</span></td>
+<td>WEB02<div class='sub'>Windows Server 2022</div></td>
+<td>Web Tier</td>
+<td class='num'>2</td>
+<td class='num crit'>0</td>
+<td class='mut'>2026-10-21</td>
+<td class='mono kb'>KB5060842</td>
+</tr>
+<tr class='st-minor'>
+<td><span class='pill minor'>Minor</span></td>
+<td>DNS01<div class='sub'>Windows Server 2022</div></td>
+<td>Infrastructure</td>
+<td class='num'>1</td>
+<td class='num crit'>0</td>
+<td class='mut'>2026-10-20</td>
+<td class='mono kb'>KB5062560</td>
+</tr>
+<tr class='st-compliant'>
+<td><span class='pill compliant'>Compliant</span></td>
+<td>DC01<div class='sub'>Windows Server 2019</div></td>
+<td>Domain Controllers</td>
+<td class='num'>0</td>
+<td class='num crit'>0</td>
+<td class='mut'>2026-10-21</td>
+<td class='mono kb'>-</td>
+</tr>
+<tr class='st-compliant'>
+<td><span class='pill compliant'>Compliant</span></td>
+<td>SQL02<div class='sub'>Windows Server 2019</div></td>
+<td>Database</td>
+<td class='num'>0</td>
+<td class='num crit'>0</td>
+<td class='mut'>2026-10-21</td>
+<td class='mono kb'>-</td>
+</tr></tbody></table></div>
+</div>
+<h2>Critical CVEs still open</h2>
+<table><thead><tr><th>CVE</th><th>Servers affected</th><th>Which</th></tr></thead><tbody><tr><td class='mono'>CVE-2026-37218</td><td>6</td><td class='mut'>DC02, WSUS01, WEB01, SQL01, APP01, RDS01</td></tr>
+<tr><td class='mono'>CVE-2026-33890</td><td>2</td><td class='mut'>WEB01, APP01</td></tr>
+<tr><td class='mono'>CVE-2026-29812</td><td>1</td><td class='mut'>APP01</td></tr></tbody></table>
+<p class="sub" style="margin-top:14px">Read-only report. State: Critical (missing security updates), Stale (not reporting), Behind (&gt;10 missing), Minor (1-10), Compliant. Generated by Patch Compliance Dashboard &middot; github.com/aayyagar/patch-compliance-dashboard</p>
+</div></body></html>

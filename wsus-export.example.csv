@@ -1,0 +1,4 @@
+Server,Group,OS,MissingUpdates,MissingCritical,LastReportStatusTime,KBs,CVEs
+WEB01,Web Tier,Windows Server 2022,14,3,2026-10-19,KB5062561;KB5061010;KB5060842,CVE-2026-37218;CVE-2026-33890
+SQL01,Database,Windows Server 2019,8,2,2026-10-20,KB5062561;KB5061010,CVE-2026-37218
+DC01,Domain Controllers,Windows Server 2019,0,0,2026-10-21,,

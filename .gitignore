@@ -1,0 +1,4 @@
+PatchReport/
+*.json
+!critical_cves.json
+!sample-report/**
